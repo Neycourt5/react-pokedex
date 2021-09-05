@@ -1,24 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react'
+import Pokemondisplay from './components/Pokemondisplay'
+import RandomPokemon from './components/RandomPokemon'
 
-function App() {
+
+const App = () => {
+  const BASE_URL = 'pokeapi.co/api';
+  const VERSION = 'v2';
+  const PROTOCOL = document.location.protocol;
+  const API_URL = `${PROTOCOL}//${BASE_URL}/${VERSION}`;
+
+  const [pokemonName, updatePokemonName] = useState()
+  const [pokemonImage, updatePokemonImage] = useState()
+
+
+  const getPokeData = async (id) => {
+    const response = await fetch(`${API_URL}/pokemon/${id}`)
+    const data = await response.json()
+    console.log(data)
+    return data
+  }
+
+  const callPokeName = async (id) => {
+    const pokemon = await getPokeData(id)
+    let pokemonName = pokemon.name
+    pokemonName = pokemonName.split('')
+    pokemonName[0] = pokemonName[0].toUpperCase()
+    pokemonName = pokemonName.join('')
+    updatePokemonImage(pokemon.sprites.front_default)
+    updatePokemonName(pokemonName)
+
+    console.log(pokemon.sprites.front_default)
+  }
+
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <Pokemondisplay
+        name={pokemonName}
+        image={pokemonImage}
+      />
+      <div>
+        <RandomPokemon callPokeName={callPokeName} />
+      </div>
     </div>
+
   );
 }
 
