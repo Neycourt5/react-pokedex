@@ -40,12 +40,9 @@ const App = () => {
       <Pokemondisplay
         name={pokemonName}
         image={pokemonImage}
+        callPokeName={callPokeName}
       />
-      <div>
-        <RandomPokemon callPokeName={callPokeName} />
-      </div>
     </div>
-
   );
 }
 
