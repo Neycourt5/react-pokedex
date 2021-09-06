@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import Pokemondisplay from './components/Pokemondisplay'
-import RandomPokemon from './components/RandomPokemon'
 
 
 const App = () => {
@@ -11,12 +10,13 @@ const App = () => {
 
   const [pokemonName, updatePokemonName] = useState()
   const [pokemonImage, updatePokemonImage] = useState()
+  const [id, updateId] = useState(1)
 
 
   const getPokeData = async (id) => {
     const response = await fetch(`${API_URL}/pokemon/${id}`)
     const data = await response.json()
-    console.log(data)
+    //console.log(data)
     return data
   }
 
@@ -28,19 +28,17 @@ const App = () => {
     pokemonName = pokemonName.join('')
     updatePokemonImage(pokemon.sprites.front_default)
     updatePokemonName(pokemonName)
-
-    console.log(pokemon.sprites.front_default)
   }
 
-
-
+  callPokeName(id)
 
   return (
     <div className="container">
       <Pokemondisplay
         name={pokemonName}
         image={pokemonImage}
-        callPokeName={callPokeName}
+        updateId={updateId}
+        id={id}
       />
     </div>
   );
