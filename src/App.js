@@ -10,13 +10,16 @@ const App = () => {
 
   const [pokemonName, updatePokemonName] = useState()
   const [pokemonImage, updatePokemonImage] = useState()
-  const [id, updateId] = useState(1)
+  const [id, updateId] = useState(() => 1)
+  const [pokemonHeight, updatePokemonHeight] = useState()
+  const [pokemonWeight, updatePokemonWeight] = useState()
+  const [pokemonType, updatePokemonType] = useState()
 
 
   const getPokeData = async (id) => {
     const response = await fetch(`${API_URL}/pokemon/${id}`)
     const data = await response.json()
-    //console.log(data)
+    console.log(data)
     return data
   }
 
@@ -26,8 +29,11 @@ const App = () => {
     pokemonName = pokemonName.split('')
     pokemonName[0] = pokemonName[0].toUpperCase()
     pokemonName = pokemonName.join('')
-    updatePokemonImage(pokemon.sprites.front_default)
-    updatePokemonName(pokemonName)
+    updatePokemonImage(() => pokemon.sprites.front_default)
+    updatePokemonName(() => pokemonName)
+    updatePokemonHeight(() => `Height: ${(pokemon.height * 10)}cm`)
+    updatePokemonWeight(() => `Weight: ${(pokemon.weight / 10)}kg`)
+    updatePokemonType(() => `Type: ${pokemon.types[0].type.name.toUpperCase()}`)
   }
 
   callPokeName(id)
@@ -39,6 +45,9 @@ const App = () => {
         image={pokemonImage}
         updateId={updateId}
         id={id}
+        pokemonHeight={pokemonHeight}
+        pokemonWeight={pokemonWeight}
+        pokemonType={pokemonType}
       />
     </div>
   );
