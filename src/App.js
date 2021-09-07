@@ -23,13 +23,16 @@ const App = () => {
     return data
   }
 
+  const getPokemonImage = async (pokemon) => pokemon.sprites.front_default
+
   const callPokeName = async (id) => {
     const pokemon = await getPokeData(id)
     let pokemonName = pokemon.name
     pokemonName = pokemonName.split('')
     pokemonName[0] = pokemonName[0].toUpperCase()
     pokemonName = pokemonName.join('')
-    updatePokemonImage(() => pokemon.sprites.front_default)
+
+    updatePokemonImage(await getPokemonImage(pokemon))
     updatePokemonName(() => pokemonName)
     updatePokemonHeight(() => `Height: ${(pokemon.height * 10)}cm`)
     updatePokemonWeight(() => `Weight: ${(pokemon.weight / 10)}kg`)
